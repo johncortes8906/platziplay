@@ -4,19 +4,19 @@ import java.util.Scanner;
 
 public class ScannerUtils {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static String captureText(String message) {
         System.out.println(message + ": ");
 
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     public static int captureInt(String message) {
         System.out.println(message + ": ");
 
-        int number = scanner.nextInt();
-        scanner.nextLine();
+        int number = SCANNER.nextInt();
+        SCANNER.nextLine();
 
         return number;
     }
@@ -24,8 +24,8 @@ public class ScannerUtils {
     public static double captureDouble(String message) {
         System.out.println(message + ": ");
 
-        double number = scanner.nextDouble();
-        scanner.nextLine();
+        double number = SCANNER.nextDouble();
+        SCANNER.nextLine();
 
         return number;
     }

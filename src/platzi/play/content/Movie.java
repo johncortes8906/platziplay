@@ -14,6 +14,20 @@ public class Movie {
     private boolean available;
     private LocalDate releaseDate;
 
+    public Movie(String title, int length, String genre) {
+        this.title = title;
+        this.length = length;
+        this.genre = genre;
+        this.available = true;
+    }
+
+    public Movie(String title, int length, String genre, double rating) {
+        this.title = title;
+        this.length = length;
+        this.genre = genre;
+        this.rating = rating;
+    }
+
     public String getTitle() {
         return title;
     }
