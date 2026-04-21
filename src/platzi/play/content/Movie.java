@@ -97,7 +97,7 @@ public class Movie {
     }
 
     public String getTechnicalSheet() {
-        return "Title: " + this.title + " (year: " + this.releaseDate.getYear() + ")" +
+        return "Title: " + this.title +
                 "\nGenre: " + this.genre +
                 "\nRating: " + this.rating;
     }

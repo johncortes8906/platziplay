@@ -15,6 +15,11 @@ public class ScannerUtils {
     public static int captureInt(String message) {
         System.out.println(message + ": ");
 
+        while (!SCANNER.hasNextInt()) {
+            System.out.println("Invalid data!");
+            SCANNER.next();
+        }
+
         int number = SCANNER.nextInt();
         SCANNER.nextLine();
 

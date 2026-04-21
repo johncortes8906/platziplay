@@ -44,4 +44,26 @@ public class Platform {
             System.out.println("Movie Title: " +movie.getTitle());
         }
      }
+
+     public Movie searchMovieByTitle(String title) {
+        for (Movie movie : this.movies) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                return movie;
+            }
+        }
+
+        return null;
+     }
+
+     public boolean removeMovieByTitle(String title) {
+        for (Movie movie : this.movies) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                this.movies.remove(movie);
+
+                return true;
+            }
+        }
+
+        return false;
+     }
 }
