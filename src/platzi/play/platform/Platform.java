@@ -3,12 +3,14 @@ package platzi.play.platform;
 import platzi.play.content.Movie;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Platform {
 
      private String name;
      private List<Movie> movies;
+     private static final int TOP_TEN = 10;
 
     public Platform(String name) {
         this.name = name;
@@ -39,20 +41,37 @@ public class Platform {
         this.movies.remove(movie);
      }
 
-     public void showMovieTitles() {
-        for (Movie movie : movies) {
-            System.out.println("Movie Title: " +movie.getTitle());
-        }
+     public List<String> showMovieTitles() {
+
+        return this.movies.stream().map(Movie::getTitle).toList();
+     }
+
+     public int getTotalMoviesLength() {
+
+        return this.movies.stream().mapToInt(Movie::getLength).sum();
      }
 
      public Movie searchMovieByTitle(String title) {
-        for (Movie movie : this.movies) {
-            if (movie.getTitle().equalsIgnoreCase(title)) {
-                return movie;
-            }
-        }
 
-        return null;
+         return this.movies.stream()
+                 .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+     }
+
+     public List<Movie> sortMostPopularMovies() {
+
+        return this.movies.stream()
+                .sorted(Comparator.comparingDouble(Movie::getRating).reversed())
+                .limit(TOP_TEN)
+                .toList();
+     }
+
+     public List<Movie> searchMoviesByGenre(String genre) {
+
+        return this.movies.stream()
+                .filter(movie -> movie.getGenre().equalsIgnoreCase(genre))
+                .toList();
      }
 
      public boolean removeMovieByTitle(String title) {
