@@ -8,20 +8,20 @@ public class Movie {
     private String description;
     private int length;
     private int year;
-    private String genre;
+    private Genre genre;
     private int yearLaunched;
     private double rating;
     private boolean available;
     private LocalDate releaseDate;
 
-    public Movie(String title, int length, String genre) {
+    public Movie(String title, int length, Genre genre) {
         this.title = title;
         this.length = length;
         this.genre = genre;
         this.available = true;
     }
 
-    public Movie(String title, int length, String genre, double rating) {
+    public Movie(String title, int length, Genre genre, double rating) {
         this.title = title;
         this.length = length;
         this.genre = genre;
@@ -60,11 +60,11 @@ public class Movie {
         this.year = year;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 

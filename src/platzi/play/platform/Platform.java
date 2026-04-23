@@ -1,6 +1,8 @@
 package platzi.play.platform;
 
+import platzi.play.content.Genre;
 import platzi.play.content.Movie;
+import platzi.play.exception.ExistentMovieException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,6 +36,10 @@ public class Platform {
     }
 
      public void addMovie(Movie movie) {
+        Movie movieToSearch = this.searchMovieByTitle(movie.getTitle());
+        if (movieToSearch != null) {
+            throw new ExistentMovieException(movie.getTitle());
+        }
          this.movies.add(movie);
      }
 
@@ -67,10 +73,10 @@ public class Platform {
                 .toList();
      }
 
-     public List<Movie> searchMoviesByGenre(String genre) {
+     public List<Movie> searchMoviesByGenre(Genre genre) {
 
         return this.movies.stream()
-                .filter(movie -> movie.getGenre().equalsIgnoreCase(genre))
+                .filter(movie -> movie.getGenre().equals(genre))
                 .toList();
      }
 

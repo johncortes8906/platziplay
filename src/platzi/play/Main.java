@@ -1,6 +1,8 @@
 package platzi.play;
 
+import platzi.play.content.Genre;
 import platzi.play.content.Movie;
+import platzi.play.exception.ExistentMovieException;
 import platzi.play.platform.Platform;
 import platzi.play.platform.User;
 import platzi.play.util.ScannerUtils;
@@ -40,11 +42,16 @@ public class Main {
             switch (option) {
                 case 1 -> {
                     String title = ScannerUtils.captureText("Name of the movie");
-                    String genre = ScannerUtils.captureText("Genre of the movie");
+                    Genre genre = ScannerUtils.captureGenre("Genre of the movie");
                     int length = ScannerUtils.captureInt("Length of the movie");
                     double rating = ScannerUtils.captureDouble("Rating of the movie");
                     Movie movie = new Movie(title, length, genre, rating);
-                    platform.addMovie(movie);
+                    try {
+                        platform.addMovie(movie);
+                    } catch (ExistentMovieException e) {
+                        System.out.println(e.getMessage());
+                    }
+
                 }
                 case 2 -> {
                     List<String> movieTitles = platform.showMovieTitles();
@@ -62,7 +69,7 @@ public class Main {
                     }
                 }
                 case 4 -> {
-                    String movieGenre = ScannerUtils.captureText("Type the movies genre for search ");
+                    Genre movieGenre = ScannerUtils.captureGenre("Type the movies genre for search");
                     List<Movie> moviesByGenre = platform.searchMoviesByGenre(movieGenre);
                     System.out.println("Total movies found: " +moviesByGenre.size());
                     moviesByGenre.forEach(movie -> System.out.println(movie.getTitle()));
@@ -91,13 +98,19 @@ public class Main {
 
     public static void loadPlatform(Platform platform) {
 
-        Movie defaultMovie = new Movie("Gladiator", 180, "Drama", 4.8);
-        platform.addMovie(defaultMovie);
-        Movie secondMovie = new Movie("The Lion King", 118, "Animated", 4.2);
-        platform.addMovie(secondMovie);
-        Movie thirdMovie = new Movie("Titanic", 242, "Drama", 4.9);
-        platform.addMovie(thirdMovie);
-        Movie fouthMovie = new Movie("Avatar", 234, "Drama", 4.7);
-        platform.addMovie(fouthMovie);
+        platform.addMovie(new Movie("Gladiator", 180, Genre.DRAMA, 4.8));
+        platform.addMovie(new Movie("The Lion King", 118, Genre.ANIMATED, 4.2));
+        platform.addMovie(new Movie("Titanic", 242, Genre.DRAMA, 4.9));
+        platform.addMovie(new Movie("Avatar", 234, Genre.SCI_FI, 4.7));
+        platform.addMovie(new Movie("Toy Story", 122, Genre.ANIMATED, 4.2));
+        platform.addMovie(new Movie("The Godfather", 187, Genre.DRAMA, 5));
+        platform.addMovie(new Movie("The Matrix", 200, Genre.SCI_FI, 5));
+        platform.addMovie(new Movie("The Mask", 200, Genre.COMEDY, 4.8));
+        platform.addMovie(new Movie("The Schindler's List", 188, Genre.DRAMA, 4.8));
+        platform.addMovie(new Movie("There's Something about Marry", 122, Genre.COMEDY, 4.5));
+        platform.addMovie(new Movie("Liar Liar", 98, Genre.COMEDY, 4.6));
+        platform.addMovie(new Movie("Aladin", 120, Genre.ANIMATED, 4.9));
+        platform.addMovie(new Movie("The Exorcist", 120, Genre.TERROR, 4.9));
+        platform.addMovie(new Movie("The Lord of the rings", 240, Genre.FANTASY, 5));
     }
 }
