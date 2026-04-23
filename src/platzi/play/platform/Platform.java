@@ -2,6 +2,7 @@ package platzi.play.platform;
 
 import platzi.play.content.Genre;
 import platzi.play.content.Movie;
+import platzi.play.content.MovieSummarize;
 import platzi.play.exception.ExistentMovieException;
 
 import java.util.ArrayList;
@@ -41,6 +42,12 @@ public class Platform {
             throw new ExistentMovieException(movie.getTitle());
         }
          this.movies.add(movie);
+     }
+
+     public List<MovieSummarize> getMoviesSummarize() {
+        return this.movies.stream()
+                .map(movie -> new MovieSummarize(movie.getTitle(), movie.getLength(), movie.getGenre()))
+                .toList();
      }
 
      public void removeMovie(Movie movie) {

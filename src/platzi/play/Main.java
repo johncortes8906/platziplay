@@ -2,6 +2,7 @@ package platzi.play;
 
 import platzi.play.content.Genre;
 import platzi.play.content.Movie;
+import platzi.play.content.MovieSummarize;
 import platzi.play.exception.ExistentMovieException;
 import platzi.play.platform.Platform;
 import platzi.play.platform.User;
@@ -15,10 +16,12 @@ public class Main {
 
     public static final String VERSION = "1.0.0";
     public static final String PLATFORM = "Platzi play 🍿";
+    public static final int SHOW_ALL_MOVIES = 2;
     public static final int SHOW_MOST_POPULAR_MOVIES = 5;
     public static final int DROP_MOVIE = 8;
     public static final int EXIT_OPTION = 9;
     public static final int EXIT_SYSTEM = 0;
+
     public static int moviesLength;
 
     public static void main(String[] args) {
@@ -53,10 +56,10 @@ public class Main {
                     }
 
                 }
-                case 2 -> {
-                    List<String> movieTitles = platform.showMovieTitles();
-                    System.out.println(PLATFORM + " has currently " + movieTitles.size() + " movies available. Movies are the following:");
-                    movieTitles.forEach(System.out::println);
+                case SHOW_ALL_MOVIES -> {
+                    List<MovieSummarize> moviesSummarize = platform.getMoviesSummarize();
+                    System.out.println(PLATFORM + " has currently " + moviesSummarize.size() + " movies available. Movies are the following:");
+                    moviesSummarize.forEach(movieSummarize -> System.out.println(movieSummarize.toString()));
                 }
                 case 3 -> {
                     String movieTitle = ScannerUtils.captureText("Type the movie title to search");
