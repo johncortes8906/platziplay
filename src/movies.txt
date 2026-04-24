@@ -1,0 +1,15 @@
+"Gladiator" | 180 | DRAMA | 4.8
+"The Lion King" | 118 | ANIMATED | 4.2
+"Titanic" | 242 | DRAMA | 4.9
+"Avatar" | 234 | SCI_FI | 4.7
+"Toy Story" | 122 | ANIMATED | 4.2
+"The Godfather" | 187 | DRAMA | 5
+"The Matrix" | 200 | SCI_FI | 5
+"The Mask" | 200 | COMEDY | 4.8
+"The Schindler's List" | 188 | DRAMA | 4.8
+"There's Something about Marry" | 122 | COMEDY | 4.5
+"Liar Liar" | 98 | COMEDY | 4.6
+"Aladin" | 120 | ANIMATED | 4.9
+"The Exorcist" | 120 | TERROR | 4.9
+"The Lord of the rings" | 240 | FANTASY | 5
+"John Wick" | 240 | Action | 52

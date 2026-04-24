@@ -5,19 +5,19 @@ import platzi.play.content.Movie;
 import platzi.play.content.MovieSummarize;
 import platzi.play.exception.ExistentMovieException;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Platform {
 
      private String name;
      private List<Movie> movies;
      private static final int TOP_TEN = 10;
+     private Map<Movie, Integer> views;
 
     public Platform(String name) {
         this.name = name;
         this.movies = new ArrayList<Movie>();
+        this.views = new HashMap<>();
     }
 
     public String getName() {
@@ -98,4 +98,26 @@ public class Platform {
 
         return false;
      }
+
+    public Map<Movie, Integer> getViews() {
+        return views;
+    }
+
+    public void setViews(Map<Movie, Integer> views) {
+        this.views = views;
+    }
+
+    public void play(Movie movie) {
+        int count = this.countViews(movie);
+        movie.play();
+        System.out.println(movie.getTitle() + " has been reproduced " + count + " times.");
+    }
+
+    private int countViews(Movie movie) {
+        int count = this.views.getOrDefault(movie, 0);
+        count += 1;
+        this.views.put(movie, count);
+
+        return count;
+    }
 }
