@@ -1,21 +1,21 @@
 package platzi.play;
 
 import platzi.play.content.Genre;
-import platzi.play.content.Movie;
+import platzi.play.content.Content;
 
 public class MainStackHeap {
 
     public static void main(String[] args) {
-        Movie animatedMovie = new Movie("The Lion King", 135, Genre.ANIMATED);
-        Movie fantasyMovie = new Movie("Harry Potter", 122, Genre.FANTASY);
+        Content animatedContent = new Content("The Lion King", 135, Genre.ANIMATED);
+        Content fantasyContent = new Content("Harry Potter", 122, Genre.FANTASY);
 
-        System.out.println("animated movie is: " +animatedMovie.getTitle());
-        System.out.println("Fantasy movie is: " +fantasyMovie.getTitle());
+        System.out.println("animated movie is: " +animatedContent.getTitle());
+        System.out.println("Fantasy movie is: " +fantasyContent.getTitle());
 
-        animatedMovie = fantasyMovie;
+        animatedContent = fantasyContent;
 
-        fantasyMovie.setTitle("The Hobbit");
-        System.out.println("animated movie is: " +animatedMovie.getTitle());
-        System.out.println("Fantasy movie is: " +fantasyMovie.getTitle());
+        fantasyContent.setTitle("The Hobbit");
+        System.out.println("animated movie is: " +animatedContent.getTitle());
+        System.out.println("Fantasy movie is: " +fantasyContent.getTitle());
     }
 }

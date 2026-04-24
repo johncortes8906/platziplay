@@ -1,22 +1,23 @@
 package platzi.play.platform;
 
 import platzi.play.content.Genre;
-import platzi.play.content.Movie;
-import platzi.play.content.MovieSummarize;
-import platzi.play.exception.ExistentMovieException;
+import platzi.play.content.Content;
+import platzi.play.content.ContentSummarize;
+import platzi.play.exception.ExistentContentException;
+import platzi.play.util.FileUtils;
 
 import java.util.*;
 
 public class Platform {
 
      private String name;
-     private List<Movie> movies;
+     private List<Content> movies;
      private static final int TOP_TEN = 10;
-     private Map<Movie, Integer> views;
+     private Map<Content, Integer> views;
 
     public Platform(String name) {
         this.name = name;
-        this.movies = new ArrayList<Movie>();
+        this.movies = new ArrayList<Content>();
         this.views = new HashMap<>();
     }
 
@@ -28,43 +29,44 @@ public class Platform {
         this.name = name;
     }
 
-    public List<Movie> getMovies() {
+    public List<Content> getContents() {
         return movies;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setContents(List<Content> movies) {
         this.movies = movies;
     }
 
-     public void addMovie(Movie movie) {
-        Movie movieToSearch = this.searchMovieByTitle(movie.getTitle());
+     public void addContent(Content movie) {
+        Content movieToSearch = this.searchContentByTitle(movie.getTitle());
         if (movieToSearch != null) {
-            throw new ExistentMovieException(movie.getTitle());
+            throw new ExistentContentException(movie.getTitle());
         }
+         FileUtils.writeContent(movie);
          this.movies.add(movie);
      }
 
-     public List<MovieSummarize> getMoviesSummarize() {
+     public List<ContentSummarize> getContentsSummarize() {
         return this.movies.stream()
-                .map(movie -> new MovieSummarize(movie.getTitle(), movie.getLength(), movie.getGenre()))
+                .map(movie -> new ContentSummarize(movie.getTitle(), movie.getLength(), movie.getGenre()))
                 .toList();
      }
 
-     public void removeMovie(Movie movie) {
+     public void removeContent(Content movie) {
         this.movies.remove(movie);
      }
 
-     public List<String> showMovieTitles() {
+     public List<String> showContentTitles() {
 
-        return this.movies.stream().map(Movie::getTitle).toList();
+        return this.movies.stream().map(Content::getTitle).toList();
      }
 
-     public int getTotalMoviesLength() {
+     public int getTotalContentsLength() {
 
-        return this.movies.stream().mapToInt(Movie::getLength).sum();
+        return this.movies.stream().mapToInt(Content::getLength).sum();
      }
 
-     public Movie searchMovieByTitle(String title) {
+     public Content searchContentByTitle(String title) {
 
          return this.movies.stream()
                  .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
@@ -72,23 +74,23 @@ public class Platform {
                 .orElse(null);
      }
 
-     public List<Movie> sortMostPopularMovies() {
+     public List<Content> sortMostPopularContents() {
 
         return this.movies.stream()
-                .sorted(Comparator.comparingDouble(Movie::getRating).reversed())
+                .sorted(Comparator.comparingDouble(Content::getRating).reversed())
                 .limit(TOP_TEN)
                 .toList();
      }
 
-     public List<Movie> searchMoviesByGenre(Genre genre) {
+     public List<Content> searchContentsByGenre(Genre genre) {
 
         return this.movies.stream()
                 .filter(movie -> movie.getGenre().equals(genre))
                 .toList();
      }
 
-     public boolean removeMovieByTitle(String title) {
-        for (Movie movie : this.movies) {
+     public boolean removeContentByTitle(String title) {
+        for (Content movie : this.movies) {
             if (movie.getTitle().equalsIgnoreCase(title)) {
                 this.movies.remove(movie);
 
@@ -99,21 +101,21 @@ public class Platform {
         return false;
      }
 
-    public Map<Movie, Integer> getViews() {
+    public Map<Content, Integer> getViews() {
         return views;
     }
 
-    public void setViews(Map<Movie, Integer> views) {
+    public void setViews(Map<Content, Integer> views) {
         this.views = views;
     }
 
-    public void play(Movie movie) {
+    public void play(Content movie) {
         int count = this.countViews(movie);
         movie.play();
         System.out.println(movie.getTitle() + " has been reproduced " + count + " times.");
     }
 
-    private int countViews(Movie movie) {
+    private int countViews(Content movie) {
         int count = this.views.getOrDefault(movie, 0);
         count += 1;
         this.views.put(movie, count);

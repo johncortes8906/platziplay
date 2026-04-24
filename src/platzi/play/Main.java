@@ -1,9 +1,7 @@
 package platzi.play;
 
-import platzi.play.content.Genre;
-import platzi.play.content.Movie;
-import platzi.play.content.MovieSummarize;
-import platzi.play.exception.ExistentMovieException;
+import platzi.play.content.*;
+import platzi.play.exception.ExistentContentException;
 import platzi.play.platform.Platform;
 import platzi.play.platform.User;
 import platzi.play.util.FileUtils;
@@ -22,6 +20,7 @@ public class Main {
 
     public static final String VERSION = "1.0.0";
     public static final String PLATFORM = "Platzi play 🍿";
+    public static final int ADD_CONTENT = 1;
     public static final int SHOW_ALL_MOVIES = 2;
     public static final int SHOW_MOST_POPULAR_MOVIES = 5;
     public  static final int PLAY_MOVIE = 6;
@@ -34,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
         Platform platform = new Platform(PLATFORM);
         loadPlatform(platform);
-        moviesLength = platform.getTotalMoviesLength();
+        moviesLength = platform.getTotalContentsLength();
         out.println("Hello, Welcome to " + PLATFORM + " v" + VERSION + " we have now " + moviesLength + " of entertainment");
 
 
@@ -44,34 +43,43 @@ public class Main {
                     "2. Show content available\n" +
                     "3. Search by title\n" +
                     "4. Search by Genre\n" +
-                    "5. Get most popular Movies\n" +
+                    "5. Get most popular Contents\n" +
                     "6. Play movie\n" +
                     "8. Drop movie\n" +
                     "9. Exit\n" +
                     "Type and press Enter to choose your option below";
             int option = ScannerUtils.captureInt(menuMessage);
             switch (option) {
-                case 1 -> {
+                case ADD_CONTENT -> {
+                    int contentType = ScannerUtils.captureInt("Type the content type you want to add:\n" +
+                            "1. Movie\n" +
+                            "2. Documentary");
                     String title = ScannerUtils.captureText("Name of the movie");
                     Genre genre = ScannerUtils.captureGenre("Genre of the movie");
                     int length = ScannerUtils.captureInt("Length of the movie");
                     double rating = ScannerUtils.captureDouble("Rating of the movie");
-                    Movie movie = new Movie(title, length, genre, rating);
                     try {
-                        platform.addMovie(movie);
-                    } catch (ExistentMovieException e) {
+                        if (contentType == 1) {
+                            Movie content = new Movie(title, length, genre, rating);
+                            platform.addContent(content);
+                        } else if (contentType == 2) {
+                            String narrow = ScannerUtils.captureText("Type the Arrow's name");
+                            Documentary documentary = new Documentary(title, length, genre, rating, narrow);
+                            platform.addContent(documentary);
+                        }
+                    } catch (ExistentContentException e) {
                         out.println(e.getMessage());
                     }
 
                 }
                 case SHOW_ALL_MOVIES -> {
-                    List<MovieSummarize> moviesSummarize = platform.getMoviesSummarize();
-                    out.println(PLATFORM + " has currently " + moviesSummarize.size() + " movies available. Movies are the following:");
+                    List<ContentSummarize> moviesSummarize = platform.getContentsSummarize();
+                    out.println(PLATFORM + " has currently " + moviesSummarize.size() + " movies available. Contents are the following:");
                     moviesSummarize.forEach(movieSummarize -> out.println(movieSummarize.toString()));
                 }
                 case 3 -> {
                     String movieTitle = ScannerUtils.captureText("Type the movie title to search");
-                    Movie movie = platform.searchMovieByTitle(movieTitle);
+                    Content movie = platform.searchContentByTitle(movieTitle);
                     if (movie != null) {
                         out.println(movieTitle + " is currently available in " + PLATFORM);
                         out.println(movie.getTechnicalSheet());
@@ -81,28 +89,28 @@ public class Main {
                 }
                 case 4 -> {
                     Genre movieGenre = ScannerUtils.captureGenre("Type the movies genre for search");
-                    List<Movie> moviesByGenre = platform.searchMoviesByGenre(movieGenre);
+                    List<Content> moviesByGenre = platform.searchContentsByGenre(movieGenre);
                     out.println("Total movies found: " +moviesByGenre.size());
                     moviesByGenre.forEach(movie -> out.println(movie.getTitle()));
                 }
                 case SHOW_MOST_POPULAR_MOVIES -> {
-                    List<Movie> mostPopularMovies = platform.sortMostPopularMovies();
-                    mostPopularMovies.forEach(movie ->
+                    List<Content> mostPopularContents = platform.sortMostPopularContents();
+                    mostPopularContents.forEach(movie ->
                             out.println(movie.getTitle() + " rating: " + movie.getRating()
                             )
                     );
                 }
                 case PLAY_MOVIE -> {
                     String movieTitle = ScannerUtils.captureText("Type the movie title that you want to watch");
-                    Movie movie = platform.searchMovieByTitle(movieTitle);
+                    Content movie = platform.searchContentByTitle(movieTitle);
                     if (movie != null) {
                         platform.play(movie);
                     }
                 }
                 case DROP_MOVIE -> {
                     String movieTitle = ScannerUtils.captureText("Type the movie title to remove");
-                    boolean isMovieRemoved = platform.removeMovieByTitle(movieTitle);
-                    if (isMovieRemoved) {
+                    boolean isContentRemoved = platform.removeContentByTitle(movieTitle);
+                    if (isContentRemoved) {
                         out.println(movieTitle + " has been removed successfully :)");
                     }
                 }
@@ -117,9 +125,9 @@ public class Main {
     public static void loadPlatform(Platform platform) {
 
         String pathFile = "src/movies.txt";
-        List<Movie> movies = FileUtils.readContent(pathFile);
+        List<Content> movies = FileUtils.readContent(pathFile);
         movies.forEach(movie ->
-                platform.addMovie(new Movie(movie.getTitle(), movie.getLength(), movie.getGenre(), movie.getRating())
+                platform.addContent(new Content(movie.getTitle(), movie.getLength(), movie.getGenre(), movie.getRating())
                 )
         );
     }

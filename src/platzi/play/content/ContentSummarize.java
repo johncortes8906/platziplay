@@ -1,6 +1,6 @@
 package platzi.play.content;
 
-public record MovieSummarize(
+public record ContentSummarize(
         String title,
         int length,
         Genre genre
