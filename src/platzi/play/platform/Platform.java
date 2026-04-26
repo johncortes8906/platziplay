@@ -3,6 +3,7 @@ package platzi.play.platform;
 import platzi.play.content.Genre;
 import platzi.play.content.Content;
 import platzi.play.content.ContentSummarize;
+import platzi.play.content.Movie;
 import platzi.play.exception.ExistentContentException;
 import platzi.play.util.FileUtils;
 
@@ -11,13 +12,13 @@ import java.util.*;
 public class Platform {
 
      private String name;
-     private List<Content> movies;
+     private List<Content> content;
      private static final int TOP_TEN = 10;
      private Map<Content, Integer> views;
 
     public Platform(String name) {
         this.name = name;
-        this.movies = new ArrayList<Content>();
+        this.content = new ArrayList<Content>();
         this.views = new HashMap<>();
     }
 
@@ -29,54 +30,62 @@ public class Platform {
         this.name = name;
     }
 
-    public List<Content> getContents() {
-        return movies;
+    public List<Content> getContent() {
+        return this.content;
     }
 
-    public void setContents(List<Content> movies) {
-        this.movies = movies;
+    public void setContent(List<Content> content) {
+        this.content = content;
     }
 
-     public void addContent(Content movie) {
-        Content movieToSearch = this.searchContentByTitle(movie.getTitle());
-        if (movieToSearch != null) {
-            throw new ExistentContentException(movie.getTitle());
+     public void addContent(Content content) {
+        Content contentToSearch = this.searchContentByTitle(content.getTitle());
+        if (contentToSearch != null) {
+            throw new ExistentContentException(content.getTitle());
+        } else {
+            FileUtils.writeContent(content);
+            this.content.add(content);
         }
-         FileUtils.writeContent(movie);
-         this.movies.add(movie);
      }
 
      public List<ContentSummarize> getContentsSummarize() {
-        return this.movies.stream()
-                .map(movie -> new ContentSummarize(movie.getTitle(), movie.getLength(), movie.getGenre()))
+        return this.content.stream()
+                .map(content -> new ContentSummarize(content.getTitle(), content.getLength(), content.getGenre()))
                 .toList();
      }
 
-     public void removeContent(Content movie) {
-        this.movies.remove(movie);
+     public List<Movie> getMovies() {
+        return this.content.stream()
+                .filter(content -> content instanceof Movie)
+                .map(filteredContent -> (Movie) filteredContent)
+                .toList();
+     }
+
+     public void removeContent(Content content) {
+        this.content.remove(content);
      }
 
      public List<String> showContentTitles() {
 
-        return this.movies.stream().map(Content::getTitle).toList();
+        return this.content.stream().map(Content::getTitle).toList();
      }
 
      public int getTotalContentsLength() {
 
-        return this.movies.stream().mapToInt(Content::getLength).sum();
+        return this.content.stream().mapToInt(Content::getLength).sum();
      }
 
      public Content searchContentByTitle(String title) {
 
-         return this.movies.stream()
-                 .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+        return this.content.stream()
+                 .filter(content -> content.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
      }
 
      public List<Content> sortMostPopularContents() {
 
-        return this.movies.stream()
+        return this.content.stream()
                 .sorted(Comparator.comparingDouble(Content::getRating).reversed())
                 .limit(TOP_TEN)
                 .toList();
@@ -84,15 +93,15 @@ public class Platform {
 
      public List<Content> searchContentsByGenre(Genre genre) {
 
-        return this.movies.stream()
-                .filter(movie -> movie.getGenre().equals(genre))
+        return this.content.stream()
+                .filter(content -> content.getGenre().equals(genre))
                 .toList();
      }
 
      public boolean removeContentByTitle(String title) {
-        for (Content movie : this.movies) {
-            if (movie.getTitle().equalsIgnoreCase(title)) {
-                this.movies.remove(movie);
+        for (Content content : this.content) {
+            if (content.getTitle().equalsIgnoreCase(title)) {
+                this.content.remove(content);
 
                 return true;
             }
@@ -109,16 +118,16 @@ public class Platform {
         this.views = views;
     }
 
-    public void play(Content movie) {
-        int count = this.countViews(movie);
-        movie.play();
-        System.out.println(movie.getTitle() + " has been reproduced " + count + " times.");
+    public void play(Content content) {
+        int count = this.countViews(content);
+        content.play();
+        System.out.println(content.getTitle() + " has been reproduced " + count + " times.");
     }
 
-    private int countViews(Content movie) {
-        int count = this.views.getOrDefault(movie, 0);
-        count += 1;
-        this.views.put(movie, count);
+    private int countViews(Content content) {
+        int count = this.views.getOrDefault(content, 0);
+        count = count + 1;
+        this.views.put(content, count);
 
         return count;
     }

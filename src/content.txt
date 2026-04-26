@@ -1,0 +1,20 @@
+Movie|Gladiator|180|DRAMA|4.8
+Movie|The Lion King|118|ANIMATED|4.2
+Movie|Titanic|242|DRAMA|4.9
+Movie|Avatar|234|SCI_FI|4.7
+Movie|Toy Story|122|ANIMATED|4.2
+Movie|The Godfather|187|DRAMA|5.0
+Movie|The Matrix|200|SCI_FI|5.0
+Movie|The Mask|200|COMEDY|4.8
+Movie|The Schindler's List|188|DRAMA|4.8
+Movie|There's Something about Marry|122|COMEDY|4.5
+Movie|Liar Liar|98|COMEDY|4.6
+Movie|Aladin|120|ANIMATED|4.9
+Movie|The Exorcist|120|TERROR|4.9
+Movie|The Lord of the rings|240|FANTASY|5.01
+Movie|Tarzan|120|ANIMATED|4.0
+Movie|John Wick|89|ACTION|4.8
+Movie|300|123|ACTION|4.2
+Documentary|Visa Salvaje|90|DOCUMENTARY|3.9|Julio Sanchez
+Movie|Toy Story 2|120|ANIMATED|3.8
+Movie|Constantine|135|ACTION|3.9
