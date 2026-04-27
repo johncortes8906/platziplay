@@ -2,7 +2,7 @@ package platzi.play.content;
 
 import java.time.LocalDate;
 
-public class Content {
+public abstract class Content {
 
     private String title;
     private String description;
@@ -27,6 +27,8 @@ public class Content {
         this.genre = genre;
         this.rating = rating;
     }
+
+    public abstract void play();
 
     public String getTitle() {
         return title;
@@ -90,10 +92,6 @@ public class Content {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public void play() {
-        System.out.println("Playing ... " +this.title);
     }
 
     public String getTechnicalSheet() {

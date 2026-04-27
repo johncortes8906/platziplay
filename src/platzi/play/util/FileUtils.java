@@ -3,6 +3,7 @@ package platzi.play.util;
 import platzi.play.content.Content;
 import platzi.play.content.Documentary;
 import platzi.play.content.Genre;
+import platzi.play.content.Movie;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,12 +32,15 @@ public class FileUtils {
             fileContents.forEach(content -> {
                 String [] data = content.split("\\" + DELIMITER);
                 int contentLength = data[0].trim().equals(MOVIE_TYPE) ? MOVIE_LENGTH : DOCUMENTARY_LENGTH;
-                if (data.length == contentLength) {
-                    String title = data[1].trim();
-                    int length = Integer.parseInt(data[2].trim());
-                    Genre genre = Genre.valueOf(data[3].toUpperCase().trim());
-                    double rating = data[4].isBlank() ? 0 : Double.parseDouble(data[4].trim());
-                    contents.add(new Content(title, length, genre, rating));
+                String title = data[1].trim();
+                int length = Integer.parseInt(data[2].trim());
+                Genre genre = Genre.valueOf(data[3].toUpperCase().trim());
+                double rating = data[4].isBlank() ? 0 : Double.parseDouble(data[4].trim());
+                if (data.length == MOVIE_LENGTH) {
+                    contents.add(new Movie(title, length, genre, rating));
+                } else if (data.length == DOCUMENTARY_LENGTH) {
+                    String narrow = data[5].trim();
+                    contents.add(new Documentary(title, length, genre, rating, narrow));
                 }
             });
 

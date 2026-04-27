@@ -1,9 +1,6 @@
 package platzi.play.platform;
 
-import platzi.play.content.Genre;
-import platzi.play.content.Content;
-import platzi.play.content.ContentSummarize;
-import platzi.play.content.Movie;
+import platzi.play.content.*;
 import platzi.play.exception.ExistentContentException;
 import platzi.play.util.FileUtils;
 
@@ -130,5 +127,12 @@ public class Platform {
         this.views.put(content, count);
 
         return count;
+    }
+
+    public List<PromotableContent> getPromotableContent() {
+        return this.content.stream()
+                .filter(content -> content instanceof PromotableContent)
+                .map(promotableContent -> (PromotableContent) promotableContent)
+                .toList();
     }
 }

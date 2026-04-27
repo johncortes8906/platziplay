@@ -40,6 +40,9 @@ public class Main {
         moviesLength = platform.getTotalContentsLength();
         out.println("We offer you " + platform.getContent().size() + " different titles with " +
                 platform.getTotalContentsLength() + " min of entertainment.");
+        platform.getPromotableContent()
+                .forEach(promotableContent -> out.println(promotableContent.promoteContent()
+        ));
 
         //Menu of actions
         while (true) {

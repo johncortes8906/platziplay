@@ -15,6 +15,6 @@ Movie|The Lord of the rings|240|FANTASY|5.01
 Movie|Tarzan|120|ANIMATED|4.0
 Movie|John Wick|89|ACTION|4.8
 Movie|300|123|ACTION|4.2
-Documentary|Visa Salvaje|90|DOCUMENTARY|3.9|Julio Sanchez
+Documentary|Vida Salvaje|90|DOCUMENTARY|3.9|Julio Sanchez
 Movie|Toy Story 2|120|ANIMATED|3.8
 Movie|Constantine|135|ACTION|3.9
